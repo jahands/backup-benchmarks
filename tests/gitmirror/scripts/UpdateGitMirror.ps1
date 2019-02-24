@@ -10,6 +10,9 @@ Param(
 if (-not $Destination.EndsWith('\') -and -not $Destination.EndsWith('/')) {
     $Destination += '/'
 }
+if([string]::IsNullOrEmpty($env:GITLAB_TOKEN)){
+    Write-Error "No gitlab token! Stopping" -ErrorAction:Stop
+}
 class GH {
     [string]$Name
     [bool]$HighVolume
@@ -1286,7 +1289,7 @@ foreach ($group in $repos.GitLabUsers.Name) {
         'gitlab-org/end-user-admin'
         'gitlab-com/federal'
     )
-    $repos = (Invoke-RestMethod "https://gitlab.com/api/v4/groups/$group/projects?private_token=GgKYAgHB17N1z7Qo4NnX&per_page=100") |
+    $repos = (Invoke-RestMethod "https://gitlab.com/api/v4/groups/$group/projects?private_token=$env:GITLAB_TOKEN&per_page=100") |
         Where-Object visibility -eq 'public'
     foreach ($r in ($repos | Sort-Object {Get-Random})) {
         if (-not $exclude.Contains($r.path_with_namespace)) {
