@@ -8,7 +8,7 @@ Param(
 # Use secure channel
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 if (-not $Destination.EndsWith('\') -and -not $Destination.EndsWith('/')) {
-    $Destination += '\'
+    $Destination += '/'
 }
 class GH {
     [string]$Name
