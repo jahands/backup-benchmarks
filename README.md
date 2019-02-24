@@ -14,4 +14,4 @@ There will be multiple datasets that will be tested with to see how each program
 
 - Git mirror to test backing up millions of small, easily dedupable/compressible data. A large number of repositories are downloaded and then updated before each backup to gather many changes.
 
-- Virtual Machines: a Windows 10 VM will be used to test VM backups, installing many different 
+- Virtual Machines: a Windows 10 VM will be used to test VM backups, installing many different programs and downloading data to generate changes.
