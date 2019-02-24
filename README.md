@@ -1,4 +1,4 @@
-# hashbackup-benchmarks
+# backup-benchmarks
 Benchmarks for HashBackup and other backup programs.
 
 Scripts are PowerShell targeting PS Core for Linux.
