@@ -72,6 +72,7 @@ $repos.GitHubOrgs = @(
     [GH]::new('uber').High()
     [GH]::new('git-lfs').High()
     [GH]::new('Homebrew').High()
+    [GH]::new('Linuxbrew').High()
     [GH]::new('kubernetes').High()
     [GH]::new('cloudfoundry').High()
     [GH]::new('go-hep').High()
