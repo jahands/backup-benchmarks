@@ -1248,12 +1248,15 @@ Function TryToUpdateRepo([string]$CloneUrl, [string]$Destination) {
 }
 # GitHub
 foreach ($org in ($repos.GitHubOrgs | Where-Object {$_.HighVolume}).Name) {
+    $exclude = @(
+        "yahoo/HLSprovider"
+    )
     $nextUrl = "https://api.github.com/orgs/$org/repos?sort=created&direction=desc&per_page=200"
     do {
         $payload = (Invoke-WebRequest $nextUrl)
         $repos = $payload.Content | ConvertFrom-Json
         # Update local copy
-        foreach ($r in ($repos | Sort-Object {Get-Random})) {
+        foreach ($r in ($repos | Sort-Object {Get-Random} | Where-Object {-not $exclude.Contains($_.full_name)})) {
             $dest = "$($Destination)clone/github.com/orgs/$($r.full_name)"
             TryToUpdateRepo -CloneUrl $r.clone_url -Destination $dest
         }
@@ -1266,12 +1269,13 @@ foreach ($org in ($repos.GitHubOrgs | Where-Object {$_.HighVolume}).Name) {
 }
 
 foreach ($user in ($repos.GitHubUsers | Where-Object {$_.HighVolume}).Name) {
+    $exclude = @()
     $nextUrl = "https://api.github.com/users/$user/repos?sort=created&direction=desc&per_page=200"
     do {
         $payload = (Invoke-WebRequest $nextUrl)
         $repos = $payload.Content | ConvertFrom-Json
         # Update local copy
-        foreach ($r in ($repos | Sort-Object {Get-Random})) {
+        foreach ($r in ($repos | Sort-Object {Get-Random} | Where-Object {-not $exclude.Contains($_.full_name)})) {
             $dest = "$($Destination)clone/github.com/users/$($r.full_name)"
             TryToUpdateRepo -CloneUrl $r.clone_url -Destination $dest
         }
