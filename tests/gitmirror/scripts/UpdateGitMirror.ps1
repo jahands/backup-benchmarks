@@ -1247,13 +1247,14 @@ Function TryToUpdateRepo([string]$CloneUrl, [string]$Destination) {
     }
 }
 # GitHub
+$cred = Get-Credential
 foreach ($org in ($repos.GitHubOrgs | Where-Object {$_.HighVolume}).Name) {
     $exclude = @(
         "yahoo/HLSprovider"
     )
     $nextUrl = "https://api.github.com/orgs/$org/repos?sort=created&direction=desc&per_page=200"
     do {
-        $payload = (Invoke-WebRequest $nextUrl)
+        $payload = (Invoke-WebRequest $nextUrl -Authentication Basic -Credential $cred)
         $repos = $payload.Content | ConvertFrom-Json
         # Update local copy
         foreach ($r in ($repos | Sort-Object {Get-Random} | Where-Object {-not $exclude.Contains($_.full_name)})) {
@@ -1272,7 +1273,7 @@ foreach ($user in ($repos.GitHubUsers | Where-Object {$_.HighVolume}).Name) {
     $exclude = @()
     $nextUrl = "https://api.github.com/users/$user/repos?sort=created&direction=desc&per_page=200"
     do {
-        $payload = (Invoke-WebRequest $nextUrl)
+        $payload = (Invoke-WebRequest $nextUrl -Authentication Basic -Credential $cred)
         $repos = $payload.Content | ConvertFrom-Json
         # Update local copy
         foreach ($r in ($repos | Sort-Object {Get-Random} | Where-Object {-not $exclude.Contains($_.full_name)})) {
