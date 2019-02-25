@@ -13,6 +13,9 @@ if (-not $Destination.EndsWith('\') -and -not $Destination.EndsWith('/')) {
 if([string]::IsNullOrEmpty($env:GITLAB_TOKEN)){
     Write-Error "No gitlab token! Stopping" -ErrorAction:Stop
 }
+if([string]::IsNullOrEmpty($env:GITHUB_TOKEN)){
+    Write-Error "No gitlab token! Stopping" -ErrorAction:Stop
+}
 class GH {
     [string]$Name
     [bool]$HighVolume
@@ -1247,7 +1250,8 @@ Function TryToUpdateRepo([string]$CloneUrl, [string]$Destination) {
     }
 }
 # GitHub
-$cred = Get-Credential
+$password = ConvertTo-SecureString $env:GITHUB_TOKEN -AsPlainText -Force
+$cred = New-Object System.Management.Automation.PSCredential ('jahands', $password)
 foreach ($org in ($repos.GitHubOrgs | Where-Object {$_.HighVolume}).Name) {
     $exclude = @(
         "yahoo/HLSprovider"
