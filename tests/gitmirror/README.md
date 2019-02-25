@@ -1,3 +1,3 @@
 # Commands
-- Initial update GitMirror: `./tests/gitmirror/scripts/UpdateGitMirror.ps1 -Destination /data/testdata/GitMirror -CloneOnly`
-- Update GitMirror: `./tests/gitmirror/scripts/UpdateGitMirror.ps1 -Destination /data/testdata/GitMirror`
+- Initial update GitMirror: `$env:HOME/src/backup-benchmarks/tests/gitmirror/scripts/UpdateGitMirror.ps1 -Destination /data/testdata/gitmirror -CloneOnly`
+- Update GitMirror: `$env:HOME/src/backup-benchmarks/tests/gitmirror/scripts/UpdateGitMirror.ps11 -Destination /data/testdata/gitmirror`
